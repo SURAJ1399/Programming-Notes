@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+ 
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        ll n;
+        cin>>n;
+        ll a[n];
+        for(int i=0;i<n;i++)    cin>>a[i];
+        stack<int>s;
+        s.push(0);
+        int i=1;
+        ll ans=a[0];
+        while(i<n)
+        {
+            while(!s.empty() and a[s.top()]>=a[i])
+            {
+                int k=s.top();
+                s.pop();
+                int j;
+                if(!s.empty())  j=s.top();
+                else    j=-1;
+ 
+                ll temp=(a[k]*(i-j-1));
+                ans=max(ans,temp);
+            }
+            s.push(i);
+            i++;
+        }
+        i=n;
+        while(!s.empty())
+        {
+            int k=s.top();
+            s.pop();
+            int j;
+            if(!s.empty())  j=s.top();
+            else    j=-1;
+            ll temp=(a[k]*(i-j-1));
+            ans=max(ans,temp);
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}

@@ -1,0 +1,23 @@
+#include <iostream>
+#include<stack>
+#include<vector>
+#include<cstdint> 
+
+using namespace std;
+
+int main() {
+
+int t;
+cin>>t;
+while(t-->0)
+{
+ vector<pair<int, int>> vec;
+ vec.push_back(pair<int, int>(1, 40));
+for(int i = 0; i < vec.size(); i++)
+{
+     cout <<vec[i].first << ", " << vec[i].second << endl;
+}  
+}
+
+	return 0;
+}

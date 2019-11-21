@@ -1,0 +1,82 @@
+/*
+// Sample code to perform I/O:
+ 
+#include <iostream>
+ 
+using namespace std;
+ 
+int main() {
+	int num;
+	cin >> num;										// Reading input from STDIN
+	cout << "Input number is " << num << endl;		// Writing output to STDOUT
+}
+ 
+// Warning: Printing unwanted or ill-formatted data to output will cause the test cases to fail
+*/
+ 
+// Write your code here
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n,q;
+    cin>>n>>q;
+    vector<int> a(n);
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    map<int,vector<pair<int,int>>> mp;
+    set<int> se;
+    for(int i=0;i<n-1;)
+    {
+        int d=a[i]-a[i+1],j=i;
+        se.insert(-d);
+        while(a[i]-a[i+1]==d)
+        i++;
+        mp[-d].push_back({j,i});
+    }
+    
+    
+    
+    while(q--)
+    {
+        int l,r,cd;
+        cin>>l>>r>>cd;
+        if(l==r or se.find(cd)==se.end())
+        cout<<1<<endl;
+        else
+        {
+            l--;
+            r--;
+            int ans=1;
+            for(auto x:mp[cd])
+            {
+                int i=x.first;
+                int j=x.second;
+                //cout<<i<<" "<<j;
+                if(i>=l and j<=r)
+                ans=max(ans,j-i+1);
+                
+                if(i<=l and j<=r)
+                ans=max(ans,j-l+1);
+                
+                if(i>=l and j>=r)
+                ans=max(ans,r-i+1);
+                
+                if(i<=l and j>=r)
+                ans=max(ans,r-l+1);
+                
+                
+                
+                
+                
+            }
+            cout<<ans<<endl;
+        }
+    }
+    
+    
+    
+    
+    
+}
+Language: C++

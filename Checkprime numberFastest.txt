@@ -1,0 +1,121 @@
+My own IsPrime() function, written and based on the deterministic variant of the famous Rabin-Miller algorithm, 
+combined with optimized step brute forcing, giving you one of the fastest prime testing functions out there.
+
+__int64 power(int a, int n, int mod)
+{
+ __int64 power=a,result=1;
+
+ while(n)
+ {
+  if(n&1) 
+   result=(result*power)%mod;
+  power=(power*power)%mod;
+  n>>=1;
+ }
+ return result;
+}
+
+bool witness(int a, int n)
+{
+ int t,u,i;
+ __int64 prev,curr;
+
+ u=n/2;
+ t=1;
+ while(!(u&1))
+ {
+  u/=2;
+  ++t;
+ }
+
+ prev=power(a,u,n);
+ for(i=1;i<=t;++i)
+ {
+  curr=(prev*prev)%n;
+  if((curr==1)&&(prev!=1)&&(prev!=n-1)) 
+   return true;
+  prev=curr;
+ }
+ if(curr!=1) 
+  return true;
+ return false;
+}
+
+inline bool IsPrime( int number )
+{
+ if ( ( (!(number & 1)) && number != 2 ) || (number < 2) || (number % 3 == 0 && number != 3) )
+  return (false);
+
+ if(number<1373653)
+ {
+  for( int k = 1; 36*k*k-12*k < number;++k)
+  if ( (number % (6*k+1) == 0) || (number % (6*k-1) == 0) )
+   return (false);
+
+  return true;
+ }
+
+ if(number < 9080191)
+ {
+  if(witness(31,number)) return false;
+  if(witness(73,number)) return false;
+  return true;
+ }
+
+
+ if(witness(2,number)) return false;
+ if(witness(7,number)) return false;
+ if(witness(61,number)) return false;
+ return true;
+
+ /*WARNING: Algorithm deterministic only for numbers < 4,759,123,141 (unsigned int's max is 4294967296)
+   if n < 1,373,653, it is enough to test a = 2 and 3.
+   if n < 9,080,191, it is enough to test a = 31 and 73.
+   if n < 4,759,123,141, it is enough to test a = 2, 7, and 61.
+   if n < 2,152,302,898,747, it is enough to test a = 2, 3, 5, 7, and 11.
+   if n < 3,474,749,660,383, it is enough to test a = 2, 3, 5, 7, 11, and 13.
+   if n < 341,550,071,728,321, it is enough to test a = 2, 3, 5, 7, 11, 13, and 17.*/
+}
+To use, copy and paste the code into the top of your program. Call it, and it returns a BOOL value, either true or false.
+
+if(IsPrime(number))
+{
+    cout << "It's prime";
+}
+
+else
+{
+    cout<<"It's composite";
+}
+If you get a problem compiling with "__int64", replace that with "long". It compiles fine under VS2008 and VS2010.
+
+How it works: There are three parts to the function. Part checks to see if it is one of the rare exceptions (negative numbers, 1), 
+and intercepts the running of the program.
+
+Part two starts if the number is smaller than 1373653, which is the theoretically number where the Rabin Miller algorithm will beat my optimized brute force function. 
+Then comes two levels of Rabin Miller, designed to minimize the number of witnesses needed. As most numbers that you'll be testing are under 4 billion, 
+the probabilistic Rabin-Miller algorithm can be made deterministic by checking witnesses 2, 7, and 61. If you need to go over the 4 billion cap, 
+you will need a large number library, and apply a modulus or bit shift modification to the power() function.
+
+If you insist on a brute force method, here is just my optimized brute force IsPrime() function:
+
+inline bool IsPrime( int number )
+{
+ if ( ( (!(number & 1)) && number != 2 ) || (number < 2) || (number % 3 == 0 && number != 3) )
+  return (false);
+
+ for( int k = 1; 36*k*k-12*k < number;++k)
+  if ( (number % (6*k+1) == 0) || (number % (6*k-1) == 0) )
+   return (false);
+  return true;
+ }
+}
+How this brute force piece works: All prime numbers (except 2 and 3) can be expressed in the form 6k+1 or 6k-1, where k is a positive whole number.
+ This code uses this fact, and tests all numbers in the form of 6k+1 or 6k-1 less than the square root of the number in question.
+ This piece is integrated into my larger IsPrime() function (the function shown first).
+
+If you need to find all the prime numbers below a number, find all the prime numbers below 1000, look into the Sieve of Eratosthenes. Another favorite of mine.
+
+As an additional note, I would love to see anyone implement the Eliptical Curve Method algorithm, been wanting to see that implemented in C++ for a while now, 
+I lost my implementation of it. Theoretically, it's even faster than the deterministic Rabin Miller algorithm I implemented, 
+although I'm not sure if that's true for numbers under 4 billion.
