@@ -1,0 +1,77 @@
+class Solution {
+public:
+    
+bool isSafe(int row, int col, int n, vector<string> &queenarng)
+    {
+    int i,j,temp;
+        
+            //Checks if it is row safe
+    for(int i=0;i<n;i++){
+        
+        if(queenarng[row][i]=='Q')
+        {
+            return false;
+        }
+    
+    }
+
+      i = row;
+    j = col;
+        while(i >= 0 && j >=0){
+            if(queenarng[i][j] == 'Q'){
+                return false;
+            }
+            i--;
+            j--;
+        }
+    
+         i= row;
+        j= col;
+        while(i <n && j >= 0){
+            if(queenarng[i][j] == 'Q'){
+                return false;
+            }
+            i++;
+            j--;
+        }
+    
+    
+    return true;
+
+    }
+    
+    void nqueen(int col, int n, vector<string> &tempqueenArrangement, vector<vector<string> > &ans){
+        if(col==n)
+        {
+            ans.push_back(tempqueenArrangement);
+            return;
+    
+        }
+
+        //we are trying for every row in a coumn
+        
+    for(int row=0;row<n;row++)
+    {
+                if(isSafe(row,col,n,tempqueenArrangement))
+        {
+            tempqueenArrangement[row][col]='Q';
+            nqueen(col+1,n,tempqueenArrangement,ans);
+            tempqueenArrangement[row][col]='.';
+            
+        }            
+
+    }
+        
+  }
+    
+    vector<vector<string>> solveNQueens(int n) {
+
+        vector<string> queenArrangement(n,string(n,'.'));
+  
+                vector<vector<string> > ans;
+        nqueen(0,n,queenArrangement,ans);
+        return ans;
+        
+
+    }
+};

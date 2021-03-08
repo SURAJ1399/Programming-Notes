@@ -1,0 +1,63 @@
+#include <iostream>
+#include<bits/stdc++.h> 
+#include <algorithm> 
+using namespace std;
+// COUNT OF SUBSET SUM IN KNAPSACK
+int main() {
+	int n;
+	cin>>n;
+	for(int x=0;x<n;x++)
+	{
+	    int size,sum1=0;
+	    cin>>size;
+	    int coin[size];
+	
+	  for(int y=0;y<size;y++)
+	     { 
+	         int z;
+	         cin>>z;
+	         coin[y]=z;
+	        
+	  
+         }
+         cin>>sum1;
+     
+     	
+             	  
+             	  int sum=sum1;;
+             	   int subset[size+1][sum+1]; 
+             	    vector<int> g1; 
+           
+           
+              for (int i = 0; i <= size; i++) // itilization
+              subset[i][0] = 1; 
+         
+              for (int i = 1; i <= sum; i++) 
+              subset[0][i] =0; 
+     	    
+                         	   for (int i = 1; i <= size; i++) 
+                          { 
+                          
+                           for (int j = 1; j <= sum; j++) 
+                           { 
+                                    if(coin[i-1]<=j)
+                                    {
+                                      
+                                        subset[i][j]=subset[i-1][j]+subset[i-1][j-coin[i-1]];
+                                    
+                                    }
+                               else
+                                    subset[i][j] = subset[i-1][j];
+                                    
+                           } 
+                           
+                         } 
+                         
+                       }
+                         cout<<subset[size][sum1]<<endl;
+                         
+     	 	}	
+    	
+    	
+	return 0;
+}

@@ -1,0 +1,117 @@
+// { Driver Code Starts
+
+
+
+//https://practice.geeksforgeeks.org/problems/length-of-largest-region-of-1s-1587115620/1/?track=ppc-graph&batchId=221
+
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define SIZE 100
+
+
+ // } Driver Code Ends
+
+
+/*  Function to find the area of 1s
+*   SIZE: declared globally for matrix definition
+*   n, m: row and column of matrix
+*   A[][]: 2D matrix from input
+*/
+int countx=0;
+bool issafe(int i,int j,int r,int c,int a[100][100],vector<vector<bool>>&vis)
+{
+    
+    if(i>=0 && i<r && j>=0 && j<c && vis[i][j]==false && a[i][j]==1)
+    return true;
+}
+
+void dfs(int i,int j,int r,int c,int a[100][100],vector<vector<bool>>&vis)
+{
+    
+    if(issafe(i,j,r,c,a,vis))
+    { 
+        countx++;
+
+        vis[i][j]=true;
+       
+         static int row[] = { -1, -1, -1, 0, 0, 1, 1, 1 }; 
+         static int col[] = { -1, 0, 1, -1, 1, -1, 0, 1 }; 
+                  
+                for( int k=0;k<8;k++)
+                {  
+                      
+                                     dfs(i+row[k],j+col[k],r,c,a,vis);
+                        
+                 
+                           
+                          
+                }
+                
+              
+  
+           
+    }
+    return;
+   
+}
+
+
+int findMaxArea(int N, int M, int A[SIZE][SIZE] )
+{
+ 
+     vector<vector<bool>>vis( N, vector<bool>(M, false));
+   
+     int res=0;
+     int r=N;
+     int c=M;
+
+    
+    for(int i=0;i<N;i++)
+    {
+        for(int j=0;j<M;j++)
+        
+        {
+           dfs(i,j,r,c,A,vis);
+         
+          
+               if(countx>res)
+              { 
+                  res=countx;
+              
+              }
+                  countx=0;
+           
+        
+    }
+    
+    }
+    return res;
+}
+
+// { Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n, m;
+        cin >> n >> m;
+
+        int g[SIZE][SIZE];
+
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                cin >> g[i][j];
+
+        cout << findMaxArea(n, m, g) << endl;
+    }
+
+    return 0;
+}  // } Driver Code Ends

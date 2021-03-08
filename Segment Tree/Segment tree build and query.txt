@@ -1,0 +1,51 @@
+void build(int *arr,int *tree,int index,int s,int e)
+{
+    if(s==e)
+    {
+        tree[index]=arr[s];
+        return;
+    }
+    if(s>e)
+    return;
+    int mid=(s+e)/2;
+    build(arr,tree,2*index,s,mid);
+    build(arr,tree,2*index+1,mid+1,e);
+    tree[index]=  min(tree[2*index],tree[2*index+1]);
+}
+
+
+int *constructST(int arr[],int n)
+{
+  //size of segment tree array
+  int *tree=new int[4*n];
+  
+  build(arr,tree,1,0,n-1);
+ 
+  return tree;
+}
+
+
+ int query(int tree[],int index,int s,int e,int qs,int qe)
+ {
+     //no overlap
+     if(qs>e || qe<s )
+     {
+         return INT_MAX;
+     }
+     //complte overlap
+     if(s>=qs && e<=qe)
+     return tree[index];
+     
+     //partial overlap
+     int mid=(e+s)/2;
+     int left= query(tree,2*index,s,mid,qs,qe);
+     int right= query(tree,2*index+1,mid+1,e,qs,qe);
+     return min(left,right);
+     
+ }
+
+
+ int RMQ(int tree[],int n,int qs,int qe)
+ {
+     return query(tree,1, 0, n-1,qs, qe);
+ }

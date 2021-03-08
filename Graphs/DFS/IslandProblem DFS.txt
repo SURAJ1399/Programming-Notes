@@ -1,0 +1,87 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+int findIslands(vector<int> A[], int N, int M);
+
+int main() {
+
+    int T;
+    cin >> T;
+    while (T--) {
+        int N, M;
+        cin >> N >> M;
+        vector<int> A[N];
+        for (int i = 0; i < N; i++) {
+            vector<int> temp(M);
+            A[i] = temp;
+            for (int j = 0; j < M; j++) {
+                cin >> A[i][j];
+            }
+        }
+        cout << findIslands(A, N, M) << endl;
+    }
+    return 0;
+}// } Driver Code Ends
+
+
+/*you are required to complete this method*/
+
+/*  Function to find number of islands in the given graph
+*   A[]: input array
+*   N, M: Row and column of given matrix
+
+
+*/
+bool safe(int x,int y,vector<int>arr[],int r,int c, vector<vector<bool>> &vis)
+{
+    
+      if( x>= 0 && x < r && y >= 0 && y < c  && vis[x][y]!=1 && arr[x][y]==1)
+      return true;
+      
+      else
+       return false;
+      
+    
+}
+void dfs(int x,int y,vector<int>arr[],int r,int c, vector<vector<bool>> &vis)
+
+{
+      static int rowNbr[] = { -1, -1, -1, 0, 0, 1, 1, 1 }; 
+    static int colNbr[] = { -1, 0, 1, -1, 1, -1, 0, 1 }; 
+
+    vis[x][y]=true;
+    
+    for(int k=0;k<8;k++)
+    if(safe(x+rowNbr[k],y+colNbr[k],arr,r,c,vis))
+    dfs(x+rowNbr[k],y+colNbr[k],arr,r,c,vis);
+    
+}
+int findIslands(vector<int> A[], int N, int M) {
+
+  
+   
+    int  count=0;
+    //
+    vector<vector<bool>> vis( N, vector<bool>(M, false));
+     
+     
+     
+  //   memset(vis,0,sizeof(vis));
+      for(int i=0;i<N;i++)
+    {   
+    
+         for(int j=0;j<M;j++)
+       {
+           if(A[i][j]==1 && !vis[i][j]  )
+           {
+               
+               dfs(i,j,A,N,M,vis);
+                 count++;
+           }
+         
+       }
+    }
+    
+    return count;
+}

@@ -1,0 +1,92 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+vector <int> dijkstra(vector<vector<int>> , int ,int );
+
+int printSolution(vector <int> dist, int n)
+{
+  
+   for (int i = 0; i < n; i++)
+      printf("%d ", dist[i]);
+  
+}
+int main()
+{
+    int t;
+    int V;
+    cin>>t;
+    while(t--){
+        cin>>V;
+        
+        vector<vector<int>> g(V);
+        
+        for(int i = 0;i<V;i++){
+            vector<int> temp(V);
+            g[i] = temp;
+        }
+        
+        for(int i=0;i<V;i++)
+        {
+      	    for(int j=0;j<V;j++)
+      	    {
+      		    cin>>g[i][j];
+      	    }
+        }
+        
+        int s;
+        cin>>s;
+        
+        vector <int> res = dijkstra(g, s, V);
+        printSolution (res, V);
+        cout<<endl;
+       }
+        return 0;
+}// } Driver Code Ends
+
+
+/*  Function to implement Dijkstra
+*   g: vector of vectors which represents the graph
+*   src: source vertex to start traversing graph with
+*   V: number of vertices
+*/
+vector <int> dijkstra(vector<vector<int>> g, int src, int V)
+
+{
+  vector<int>arr(V);
+   for(int i=0;i<V;i++)
+   { arr[i]=INT_MAX;
+   }
+   arr[src]=0;
+   vector<pair<int,int>> node;
+   
+  
+   for(int i=0;i<V;i++)
+{
+    for(int j=0;j<V;j++)
+    {
+        
+      if(i!=j && g[i][j]!=0)
+            node.push_back(std::make_pair(i,j));
+            
+        
+    }
+ }
+
+   for(int i=0;i<V;i++)
+    {
+        for(int j=0;j<node.size();j++)
+        {
+         
+            if(arr[node[j].first]!=INT_MAX && g[node[j].first][node[j].second]+arr[node[j].first]<arr[node[j].second])
+            {
+              arr[node[j].second]=g[node[j].first][node[j].second]+arr[node[j].first];
+        
+                
+            }
+        }
+    }
+   return arr;
+ 
+   
+}

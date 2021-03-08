@@ -1,0 +1,95 @@
+ //https://www.interviewbit.com/problems/largest-distance-between-nodes-of-a-tree/
+ 
+ 
+ 
+ ///we take a node and find fartest node from it,then we take that farest node and find the farest node from it
+ //that distnace is longest distance in a tree/graph
+ 
+
+ 
+pair<int, int> bfs(int u,vector<vector<int>>&adj,int V) 
+{ 
+    //  mark all distance with -1 
+    int dis[V]; 
+    memset(dis, -1, sizeof(dis)); 
+  
+    queue<int> q; 
+    q.push(u); 
+  
+    //  distance of u from u will be 0 
+    dis[u] = 0; 
+  
+    while (!q.empty()) 
+    { 
+        int t = q.front();       q.pop(); 
+  
+        //  loop for all adjacent nodes of node-t 
+        for (auto it: adj[t]) 
+        { 
+            int v = it; 
+  
+            // push node into queue only if 
+            // it is not visited already 
+            if (dis[v] == -1) 
+            { 
+                q.push(v); 
+  
+                // make distance of v, one more 
+                // than distance of t 
+                dis[v] = dis[t] + 1; 
+            } 
+        } 
+    } 
+  
+    int maxDis = 0; 
+    int nodeIdx; 
+  
+    //  get farthest node distance and its index 
+    for (int i = 0; i < V; i++) 
+    { 
+        if (dis[i] > maxDis) 
+        { 
+            maxDis = dis[i]; 
+            nodeIdx = i; 
+        } 
+    }
+ //   cout<<maxDis<<" ";
+    return make_pair(nodeIdx, maxDis); 
+} 
+
+
+
+int Solution::solve(vector<int> &A) {
+    
+    vector<vector<int>>adj(A.size());
+    
+    for(int i=0;i<A.size();i++)
+{
+    int x=A[i];
+ //   cout<<x;
+    if(x==0)
+  {  adj[0].push_back(i);
+   adj[i].push_back(0);
+      
+  }
+    else if(x!=-1)
+   { adj[x].push_back(i);
+    adj[i].push_back(x);
+       
+   }
+    
+}
+
+ pair<int, int> t1, t2; 
+ int v=A.size();
+  
+    
+    t1 = bfs(0,adj,v); 
+  
+   //t1,first contain node which is farest.
+  
+    t2 = bfs(t1.first,adj,v); 
+    return t2.second;
+
+
+}

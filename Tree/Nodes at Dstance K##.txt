@@ -1,0 +1,223 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// Tree Node
+struct Node
+{
+    int data;
+    Node* left;
+    Node* right;
+};
+
+// Utility function to create a new Tree Node
+Node* newNode(int val)
+{
+    Node* temp = new Node;
+    temp->data = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    
+    return temp;
+}
+
+// Function to Build Tree
+Node* buildTree(string str)
+{   
+    // Corner Case
+    if(str.length() == 0 || str[0] == 'N')
+            return NULL;
+    
+    // Creating vector of strings from input 
+    // string after spliting by space
+    vector<string> ip;
+    
+    istringstream iss(str);
+    for(string str; iss >> str; )
+        ip.push_back(str);
+        
+    // Create the root of the tree
+    Node* root = newNode(stoi(ip[0]));
+        
+    // Push the root to the queue
+    queue<Node*> queue;
+    queue.push(root);
+        
+    // Starting from the second element
+    int i = 1;
+    while(!queue.empty() && i < ip.size()) {
+            
+        // Get and remove the front of the queue
+        Node* currNode = queue.front();
+        queue.pop();
+            
+        // Get the current node's value from the string
+        string currVal = ip[i];
+            
+        // If the left child is not null
+        if(currVal != "N") {
+                
+            // Create the left child for the current node
+            currNode->left = newNode(stoi(currVal));
+                
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+            
+        // For the right child
+        i++;
+        if(i >= ip.size())
+            break;
+        currVal = ip[i];
+            
+        // If the right child is not null
+        if(currVal != "N") {
+                
+            // Create the right child for the current node
+            currNode->right = newNode(stoi(currVal));
+                
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    
+    return root;
+}
+
+
+ // } Driver Code Ends
+/* A binary Tree node
+struct Node
+{
+    int data;
+    struct Node *left, *right;
+};
+*/
+
+class solver
+{
+private:
+
+public:
+map<Node*,Node*>pmap;
+vector<int>ans;
+
+void printn(Node *root,int k)
+{
+    queue<Node*>q;
+ vector<Node*>vis;
+    q.push(root);
+    
+    while(!q.empty())
+    {
+        int size=q.size();
+        for(int i=0;i<size;i++)
+        {
+            Node* temp=q.front();
+            q.pop();
+            vis.push_back(temp);
+            if(k==0)
+            {
+                ans.push_back(temp->data);
+                
+            }
+            if(pmap[temp]!=NULL && find (vis.begin(), vis.end(), pmap[temp])==vis.end())
+         
+         {   q.push(pmap[temp]);
+ 
+             
+         }
+            if(temp->left!=NULL && find (vis.begin(), vis.end(), temp->left)==vis.end())
+            q.push(temp->left);
+            if(temp->right!=NULL && find (vis.begin(), vis.end(), temp->right)==vis.end())
+            q.push(temp->right);
+            
+    
+        }
+        k--;
+        if(k<0)
+        break;
+        
+        
+    }
+    
+}
+ void search(Node* root, int target , int k)
+{
+    if(root->data==target)
+{   
+    printn(root,k);
+    return;
+
+}   
+    
+    if(root->left!=NULL)
+    {
+        search(root->left,target,k);
+    }
+    
+    if(root->right!=NULL)
+    {
+        search(root->right,target,k);
+    }
+}
+
+void storep(Node * root)
+{
+    
+    if(root->left!=NULL)
+    {
+        pmap[root->left]=root;
+    storep(root->left);
+        
+    }
+        
+    if(root->right!=NULL)
+    {
+        pmap[root->right]=root;
+        storep(root->right);
+    }
+}
+    vector <int> KDistanceNodes(Node* root, int target , int k)
+    {
+        // return the sorted vector of all nodes at k dist
+    
+    ans.clear();
+    storep(root);
+   // cout<<pmap.size();
+    search(root,target,k);
+    sort(ans.begin(),ans.end());
+    return ans;
+    }
+};
+
+// { Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin>>t;
+    getchar();
+    
+    solver x = solver();
+    
+    while(t--)
+    {
+        string s;
+        getline(cin,s);
+        Node* head = buildTree(s);
+        
+        int target, k;
+        cin>> target >> k;
+        getchar();
+        
+        vector <int> res = x.KDistanceNodes(head, target, k);
+        
+        for( int i=0; i<res.size(); i++ )
+            cout<< res[i] << " ";
+        cout<<endl;
+    }
+    return 0;
+}
+  // } Driver Code Ends

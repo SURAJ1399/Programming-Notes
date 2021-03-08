@@ -1,0 +1,56 @@
+
+   Node * findlca(Node* root, int a, int b) {
+   
+    if(root==NULL)
+       return NULL;
+       if(root->data==a || root->data==b)
+       return root;
+      
+       
+            Node* l=findlca(root->left,a,b);
+            Node* r=findlca(root->right,a,b);
+            
+            if(l!=NULL && r!=NULL)
+            return root;
+            if(l!=NULL)
+            return l;
+            if(r!=NULL)
+            return r;
+            
+            return NULL;
+            
+      
+       
+   }
+   
+ int finddis(Node *root, int k, int level)
+{
+    if(root == NULL) return 0;
+    if(root->data == k) return level;
+ 
+    int left = finddis(root->left, k, level+1);
+     int right= finddis(root->right, k, level+1);
+     
+      if(left>0)
+      return left;
+      if(right>0)
+      return right;
+      
+    return 0;
+}
+ 
+   
+int findDist(Node* root, int a, int b) {
+    
+    
+  Node * node= findlca(root,a,b);
+ 
+  if(node!=NULL)
+  
+ 
+    return finddis(node,a,0)+finddis(node,b,0);
+  
+ 
+    
+    
+}

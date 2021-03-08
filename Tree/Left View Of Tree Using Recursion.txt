@@ -1,0 +1,24 @@
+   
+    void leftUtility(TreeNode* node, int current, int* max,vector<int> &ans)
+{
+	if (node != NULL && current >=*max)
+	{
+		ans.push_back(node->val);
+		*max = *max + 1;
+	}
+	if (node != NULL)
+	{		
+		leftUtility(node->right, current + 1, max,ans);
+		leftUtility(node->left, current + 1, max,ans);
+	}
+}
+    vector<int> rightSideView(TreeNode* root) {
+        int temp = 0;
+         vector<int> ans;
+        
+  int rootVal = root ->val ;
+   leftUtility(root, 0, &temp,ans);
+        return ans;
+        
+    }
+};

@@ -1,0 +1,38 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	string message="abaasass";
+	  string ans="";
+    int count=1;
+    for(int i=0;i<message.length();i++)
+
+   {
+    if(message[i]==message[i+1])
+    {
+        count++;
+    }
+    else 
+    {
+     if(count>1)
+    {// to_string is used to append number to string
+        string xx=message[i]+to_string(count); 
+      ans=ans+xx;
+      count=1;
+    }
+    else if(count==1)
+    {
+        char xx=message[i];
+       
+      ans=ans+xx;
+    }
+    }
+    
+    
+    }
+    cout<<ans;
+    
+ 
+   
+	return 0;
+}

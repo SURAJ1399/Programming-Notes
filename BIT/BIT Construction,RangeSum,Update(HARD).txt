@@ -1,0 +1,71 @@
+
+
+class NumArray {
+    
+       int bit[10000000]; 
+       int size=0;
+       vector<int> arr;
+public:
+      
+    
+    int sum(int index)
+    {
+        int sumres=0;
+       index++;
+           while(index>0)
+        {
+            sumres+=bit[index];
+            index-=(index & (-index));
+        }
+        return sumres;
+    }
+     void updateOP(int index,int val)
+    {
+    
+         index++;
+        while(index<=size)
+        {
+            bit[index]+=val;
+            index+=index & (-index);
+        }
+    }
+    
+
+
+    void updateBIT(int n,int index,int val)
+    {
+    index++;
+        while(index<=n)
+        {
+            bit[index]+=val;
+            index+=index & (-index);
+        }
+    }
+    
+    NumArray(vector<int>& nums) {
+  
+     arr=nums;
+        
+        size=nums.size()+1;
+      for(int i=1;i<=nums.size();i++)
+        {
+           bit[i]=0;
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+            updateBIT(size,i,arr[i]);
+        }
+    }
+    
+    void update(int i, int val) {
+        int newval=val-arr[i];
+          updateOP(i,newval);
+        arr[i]=val;
+    }
+    
+    int sumRange(int i, int j) {
+      
+        return sum(j)-sum(i-1);
+        
+    }
+};

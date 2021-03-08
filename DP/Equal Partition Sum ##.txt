@@ -1,0 +1,51 @@
+
+class Solution{
+public:
+    int equalPartition(int n, int arr[])
+    {
+        
+     int sum=0;
+     for(int i=0;i<n;i++)
+     sum+=arr[i];
+      
+   
+     if(sum%2==0)
+    
+     {
+          int target=sum/2;
+    
+         vector<vector<int>> ans;
+        bool mat[n+1][target+1];
+        for(int i=0;i<=n;i++)
+        mat[i][0]=true;
+         for(int i=1;i<=target;i++)
+        mat[0][i]=false;
+         for(int i=1;i<=n;i++)
+         {
+             
+              for(int j=1;j<=target;j++)
+              {
+                   
+                  if(arr[i-1]<=j) ///can bat only if total run is less than player scoring level
+                  {
+                      int runlft=j-arr[i-1];
+                      mat[i][j]=mat[i-1][runlft]|| mat[i-1][j];
+                  }
+                  else
+                  {
+                    //player level  is more then total run so he has only 1 option .i.e he will not bat
+                      mat[i][j]=mat[i-1][j];
+                      
+                      
+                  }
+                      
+              }
+         }
+         return mat[n][target];
+    }
+
+    else
+    return 0;
+
+    }
+};

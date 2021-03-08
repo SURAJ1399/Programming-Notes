@@ -1,0 +1,17 @@
+class Solution
+{
+  public:
+    long long int count( int s[], int size, int target )
+    {
+       
+        //code here
+        long long int dp[target+1]={0};
+        dp[0]=1;
+        for(int cx=0;cx<size;cx++)
+        {
+            for(int i=s[cx];i<=target;i++)
+            dp[i]=dp[i]+dp[i-s[cx]];
+        }
+        return dp[target];
+    }
+};

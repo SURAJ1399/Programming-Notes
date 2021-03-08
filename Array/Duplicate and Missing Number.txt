@@ -1,0 +1,19 @@
+              
+
+             int i; 
+            int *ans;
+            for (i = 0; i < n; i++) { 
+                
+                if (arr[abs(arr[i]) - 1] > 0) 
+                    arr[abs(arr[i]) - 1] = -arr[abs(arr[i]) - 1]; 
+                else
+                    ans=new int(abs(arr[i]));
+                    //cout << abs(arr[i]) <<" "; 
+            } 
+          
+            for (i = 0; i < n; i++) { 
+                if (arr[i] > 0) 
+                   *(ans+1)=i+1;
+                    //cout << (i + 1)<<endl; 
+            } 
+            return ans;

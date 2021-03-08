@@ -1,0 +1,39 @@
+void detectCycle(int u, vector<vector<int>> &adj,
+vector<bool> &visit,vector<bool> &stack,int &res)
+{
+visit[u] = true;
+stack[u] = true;
+
+
+for(auto i: adj[u])
+{
+    if(!visit[i])
+        detectCycle(i,adj,visit,stack,res);
+    else if(stack[i])
+    {
+        res = 0;
+        return;
+    }
+}
+stack[u] = false;
+}
+
+int Solution::solve(int V, vector <int>&B, vector<int> &C)
+{
+int n = B.size();
+
+vector<vector<int>> adj(V+1);
+for(int i=0;i<n;i++)
+{
+    adj[B[i]].push_back(C[i]);
+}
+
+vector<bool> visit(V+1,false);
+vector<bool> stack(V+1,false);
+
+//detect cycle in graph
+int res = 1;
+detectCycle(1,adj,visit,stack,res);
+return res;
+
+}

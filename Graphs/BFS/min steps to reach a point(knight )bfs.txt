@@ -1,0 +1,88 @@
+// { Driver Code Starts    https://www.geeksforgeeks.org/minimum-steps-reach-target-knight/
+// Initial function template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int minStepToReachTarget(int *, int *, int);
+
+// Driver code to test above methods
+int main() {
+    // size of square board
+    int t;
+    cin >> t;
+    while (t--) {
+        int N;
+        int a, b, c, d;
+        cin >> N;
+        cin >> a >> b;
+        cin >> c >> d;
+        int knightPos[] = {a, b};
+        int targetPos[] = {c, d};
+        cout << minStepToReachTarget(knightPos, targetPos, N) << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
+
+
+// User function template for C++
+
+// KnightPos : knight position coordinates
+// targetPos : target position coordinated
+// N : square matrix size
+bool issafe(int x,int y,int N)
+{
+    if(x>=1 && x<=N && y>=1 && y<=N)
+    return true;
+    else
+    return  false;
+    
+}
+
+    
+int minStepToReachTarget(int s[], int t[], int N) {
+   
+   
+    queue<pair<int,int>>q;
+    q.push({s[0],s[1]});
+    int steps=0;
+    vector<vector<int>> vis( N+1, vector<int>(N+1, 0));
+     vis[s[0]][s[1]]=0;
+     
+    int row[] = { -2, -1, 1, 2, -2, -1, 1, 2 }; 
+    int col[] = { -1, -2, -2, -1, 1, 2, 2, 1 };
+    
+    while(!q.empty())
+    {
+        
+        
+        pair<int ,int> p=q.front();
+    
+    
+         q.pop();
+    
+     
+       
+        if(t[0]==p.first && t[1]==p.second)
+         return  vis[p.first][p.second];
+        
+        for(int k=0;k<8;k++)
+        {
+            int r=p.first;
+            int c=p.second;
+       
+          if(issafe(r+row[k],c+col[k],N) && vis[r+row[k]][c+col[k]]==0)
+          {
+              steps++;
+           
+             vis[r+row[k]][c+col[k]]=vis[r][c]+1;
+              q.push({r+row[k],c+col[k]});
+          }
+        }
+    }
+   
+    
+    
+    
+}

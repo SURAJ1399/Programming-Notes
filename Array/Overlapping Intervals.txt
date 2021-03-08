@@ -1,0 +1,76 @@
+// { Driver Code Starts
+//Initial function template for C++
+
+#include<bits/stdc++.h>
+using namespace std;
+
+vector<pair<int,int>> overlappedInterval(vector<pair<int,int>> , int );
+
+// User code will be pasted here
+
+int main()
+{
+    
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        vector<pair<int,int> > arr,res;
+        int n,x,y;
+        cin>>n;
+
+        for(int i=0;i<n;i++)
+        {
+            cin>>x>>y;
+            arr.push_back(make_pair(x,y));
+        }
+        
+        res = overlappedInterval(arr,n);
+        
+        
+        for(int i=0;i<res.size();i++)
+            cout << res[i].first << " " << res[i].second << " " ;
+            
+        cout<<endl;
+    }
+}
+// } Driver Code Ends
+
+
+//User function template for C++
+
+vector<pair<int,int>> overlappedInterval(vector<pair<int,int>> vec, int n) {
+    
+     sort(vec.begin(),vec.end());
+  int prevs=vec[0].first;
+  
+  int preve=vec[0].second;
+  
+    vector<pair<int,int>> ans;
+   
+    for(int i=0;i<n;i++)
+    {
+        int first=vec[i].first;
+        int second=vec[i].second;
+        if(preve>=first)
+        {
+            preve=max(second,preve);
+           
+        }
+        else
+        {
+              //  cout<<"enter"<<first<<second<<" ";
+               ans.push_back(make_pair(prevs,preve));
+               prevs=first;
+               preve=second;
+        }
+        
+         
+        
+        
+    }
+      ans.push_back(make_pair(prevs,preve));
+    
+    return ans;
+    //code here
+}

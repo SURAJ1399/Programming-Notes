@@ -1,0 +1,76 @@
+#include <iostream>
+#include<bits/stdc++.h> 
+#include <algorithm> 
+using namespace std;
+//UNBOUNDED KNAPSACK COIN CHANGE 2
+int main() {
+
+int n;
+cin>>n;
+for(int i=0;i<n;i++)
+{
+        long size,sum1=0;
+        cin>>sum1;
+           cin>>size;
+        long coin[size];
+    
+      for(int y=0;y<size;y++)
+         { 
+             int z;
+             cin>>z;
+             coin[y]=z;
+            
+      
+         }
+    
+                   
+                   long sum=sum1;;
+                    long subset[size+1][sum+1]; 
+                     vector<int> g1; 
+           
+           
+              for (int i = 0; i <= sum; i++) 
+              subset[0][i] = LONG_MAX-1; 
+         
+              for (int i = 1; i <= size; i++) 
+              subset[i][0] =0; 
+              
+              for (int i = 1; i <= sum; i++) 
+              
+           {   if(i%coin[0]==0)       // Inilization of second row from j=1 to j=sum;
+              subset[1][i] = i/coin[0]; 
+              else
+              subset[1][i] =LONG_MAX-1; 
+              
+              
+           }
+             
+                                for (int i = 2; i <= size; i++) 
+                          { 
+                          
+                           for (int j = 1; j <= sum; j++) 
+                           { 
+                                    if(coin[i-1]<=j)
+                                    {
+
+                                       
+                                        subset[i][j]=min(1+subset[i][j-coin[i-1]],subset[i-1][j]);
+                                    
+                                    }
+                               else
+                                    subset[i][j] = subset[i-1][j];
+                                    
+                           } 
+                           
+                         } 
+                         
+                      if(subset[size][sum1]<9223372036854775806)
+                         cout<<subset[size][sum1]<<endl;
+                         else
+                          cout<<"-1"<<endl;
+}
+                
+        
+        
+    return 0;
+}

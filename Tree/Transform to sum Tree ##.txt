@@ -1,0 +1,18 @@
+int convert(Node * root)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    int lsum=convert(root->left);
+    int rsum=convert(root->right);
+    int val=lsum+rsum+root->data;
+    root->data=lsum+rsum;
+    return val;
+}
+void toSumTree(Node *root)
+{
+    // Your code here
+ 
+    convert(root);
+}

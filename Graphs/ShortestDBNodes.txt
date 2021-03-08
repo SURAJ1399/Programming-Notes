@@ -1,0 +1,41 @@
+
+int shortestDistance(int x,int y){
+    
+    int count = 0;
+    
+    while(true){
+        if(x == y){
+            break;
+        }
+        if(x < y){
+            y = y/2;
+        }else{
+            x = x/2;
+        }
+        
+        count++;
+    }
+    
+    
+    return count;
+}
+
+int main() {
+	//code
+	int t;
+	cin>>t;
+	while(t--){
+	    int x,y;
+	    cin>>x>>y;
+	    int ans = 0;
+	    if(x == y){
+	        ans = 0;
+	    }else{
+	        ans = shortestDistance(x,y);
+	    }
+	    
+	    cout<<ans<<endl;
+	    
+	}
+	return 0;
+}

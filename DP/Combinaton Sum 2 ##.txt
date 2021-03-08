@@ -1,0 +1,94 @@
+class Solution {
+public:
+    
+    struct Pair{ 
+    int i, j; 
+         vector<int>psf;
+        Pair(int ii,int jj,vector<int> psff)
+    {
+        i = ii;
+ 
+            
+        j = jj;
+        psf = psff;
+    }
+}; 
+    vector<vector<int>> combinationSum2(vector<int>& arr, int target) {
+       
+        int n=arr.size();
+      
+        
+         sort(arr.begin(),arr.end(),greater<int>());
+        vector<vector<int>> ans;
+        bool mat[n+1][target+1];
+        for(int i=0;i<=n;i++)
+        mat[i][0]=true;
+         for(int i=1;i<=target;i++)
+        mat[0][i]=false;
+         for(int i=1;i<=n;i++)
+         {
+             
+              for(int j=1;j<=target;j++)
+              {
+                   
+                  if(arr[i-1]<=j) ///can bat only if total run is less than player scoring level
+                  {
+                      int runlft=j-arr[i-1];
+                      mat[i][j]=mat[i-1][runlft]|| mat[i-1][j];
+                  }
+                  else
+                  {
+                    //player level  is more then total run so he has only 1 option .i.e he will not bat
+                      mat[i][j]=mat[i-1][j];
+                      
+                      
+                  }
+                      
+              }
+         }
+        
+//              cout<<mat[n][target];
+        queue<Pair>q;
+       vector<int>temp;
+        
+        q.push( Pair(n,target, temp));
+        while(!q.empty())
+        {
+            
+            Pair rem=q.front();
+            q.pop();
+            if(rem.i==0 )
+            {
+//                cout<<rem.psf<<endl;
+                ans.push_back(rem.psf);
+            }
+            else
+            {
+            bool exc=mat[rem.i-1][rem.j];
+            if(exc)
+            {
+                q.push(Pair(rem.i-1,rem.j,rem.psf));
+            }
+            
+            if(rem.j>=arr[rem.i-1])
+            {
+                bool inc=mat[rem.i-1][rem.j-arr[rem.i-1]];
+                 if(inc)
+                 {
+                    vector<int> temp2=rem.psf;
+                     temp2.push_back(arr[rem.i-1]);
+                        q.push( Pair(rem.i-1,rem.j-arr[rem.i-1],temp2));
+                 }
+            }
+        }
+            
+        
+         }
+        
+            
+        std::sort(ans.begin(), ans.end());
+        ans.erase(std::unique(ans.begin(), ans.end()),ans.end());
+      
+        return ans;
+    }
+};

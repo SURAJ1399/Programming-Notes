@@ -1,0 +1,65 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+	public:
+     
+     int spanningTree(int V, vector<vector<int>> graph[]) {
+        // code here
+     int vis[V],i,summ;
+     memset(vis,0,sizeof(vis));
+
+    //min heap order by first element get created
+
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+    pq.push(make_pair(0,0));
+    summ=0;
+    while(!pq.empty()){
+        auto x=pq.top();
+        pq.pop();
+        if(vis[x.second])
+            continue;
+        summ+=x.first;
+        vis[x.second]=1;
+        
+            for(auto vec:graph[x.second])
+    
+            if(vis[vec[0]]==0){
+                pq.push(make_pair(vec[1],vec[0]));
+                
+            }
+        
+    }
+    return summ;
+    }
+};
+
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--) {
+        int V, E;
+        cin >> V >> E;
+        vector<vector<int>> adj[V];
+        int i=0;
+        while (i++<E) {
+            int u, v, w;
+            cin >> u >> v >> w;
+            vector<int> t1,t2;
+            t1.push_back(v);
+            t1.push_back(w);
+            adj[u].push_back(t1);
+            t2.push_back(u);
+            t2.push_back(w);
+            adj[v].push_back(t2);
+        }
+        
+        Solution obj;
+    	cout << obj.spanningTree(V, adj) << "\n";
+    }
+
+    return 0;
+}

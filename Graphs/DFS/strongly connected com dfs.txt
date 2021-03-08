@@ -1,0 +1,99 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+
+using namespace std;
+
+ // } Driver Code Ends
+
+
+/*  Function to find the number of strongly connected components
+*   using Kosaraju's algorithm
+*   V: number of vertices
+*   adj[]: array of vectors to represent graph
+*/
+stack<int>s;
+int c;
+void revdfs(vector<int> adj[],int node,vector<bool>&revvis)
+{
+    revvis[node]=true;
+  // cout<<node<<" ";
+    for(int i:adj[node])
+    {
+        if(revvis[i]==false)
+        revdfs(adj,i,revvis);
+    }
+    
+}
+void dfs(vector<int> adj[],int node,vector<bool>&vis)
+{
+    vis[node]=true;
+  //  cout<<node<<" ";
+    for(int i:adj[node])
+    {
+        if(vis[i]==false)
+        dfs(adj,i,vis);
+    }
+   
+     s.push(node);
+}
+
+int kosaraju(int V, vector<int> adj[])
+// { 
+//      step 1: store vertex in a stack in sorted order of traverse
+//      step2: transpose the graph
+//      step3:One by one pop a vertex from S while S is not empty. Let the popped vertex be ‘v’. Take v as source and do DFS (call DFSUtil(v)). 
+//      The DFS starting from v prints strongly connected component of v.
+    
+    c=0;
+    vector<bool>vis(V+1,false);
+    for(int i=0;i<V;i++)
+    {
+        if(vis[i]==false)
+        dfs(adj,i,vis);
+        
+    }
+    // transpose of graph;
+    vector<int>tg[V];
+    for(int i=0;i<V;i++)
+    {
+        for(int it:adj[i])
+        {
+            tg[it].push_back(i);
+        }
+    }
+  
+     vector<bool>revvis(V+1,false);
+     while(!s.empty())
+     {
+      int nd=s.top();
+      s.pop();
+      if(revvis[nd]==false)
+      {
+          c++;
+          revdfs(tg,nd,revvis);
+      }
+     }
+     return c;
+     
+
+}
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int a, b;
+        cin >> a >> b;
+        int m, n;
+        vector<int> adj[a];
+        for (int i = 0; i < b; i++) {
+            cin >> m >> n;
+            adj[m].push_back(n);
+        }
+        cout << kosaraju(a, adj) << endl;
+    }
+    return 0;
+}
+  // } Driver Code Ends

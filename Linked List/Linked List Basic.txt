@@ -1,0 +1,74 @@
+//input 
+//9
+//2 18 24 3 5 7 9 6 12
+//output
+//24 18 2 3 5 7 9 12 6 
+
+
+#include<iostream>
+#include<stack>
+#include<vector>
+using namespace std;
+ 
+struct node{
+    int data;
+    node *next;
+};  // Creating A Custom DataType named node;
+ 
+int main()
+{
+int N;
+std::cin >> N;
+int count = N;
+struct node *head=NULL,*last=NULL; // intitlize head as null which means empty list;
+ 
+while(count)
+{
+    struct node *temp = new node; // Create a variable pointer temp of node data type as created above;
+    cin>>temp->data; // pushing input from user in data field of node datatype;
+    if(head==NULL)
+    {
+        head=temp;
+        last=temp;
+    }
+    else
+    {
+        last->next = temp; // putting adress of cureent node   into next pointer of last inserted node(input);
+        last = temp;     //making current node as last node;
+    }
+    count--;
+}// Insertion over;
+ 
+struct node *temp = head;
+stack<int> s;
+std::vector<int>ans ;
+while(temp)
+{ if(temp->data%2==0)
+   { 
+    s.push(temp->data);
+    
+   }
+    else
+  {   while(!s.empty())
+    {
+    int x=s.top();
+    ans.push_back(x);
+    s.pop();
+    }
+   ans.push_back(temp->data);
+  }
+          temp= temp->next;
+          
+}
+while(!s.empty())
+   {int y=s.top();
+    ans.push_back(y);
+    s.pop();
+   }
+   for(int i=0;i<N;i++)
+   {
+      cout<<ans[i]<<" ";
+   }
+    
+return 0;
+}

@@ -1,0 +1,43 @@
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+          int len=s.length();
+       long long  int dp[len];
+        for(int i=0;i<len;i++)
+        {
+            dp[i]=0;
+        }
+        for(int i=0;i<len;i++)
+        {string temp;
+            for(int j=0;j<=i;j++)
+            {
+                string w2check;
+                 for(int w=j;w<=i;w++)
+                     w2check+=s[w];
+        
+                
+
+                if (std::find(wordDict.begin(), wordDict.end(), w2check) != wordDict.end())
+                    {
+                        if(j>0)
+                        dp[i]=(dp[i]+dp[j-1])%100000000007;
+                        else
+                            dp[i]=dp[i]+1;
+   
+                    temp+=w2check;
+                    }
+                }
+         cout<<temp<<endl;
+        }
+        for(int i=0;i<len;i++)
+        {
+            cout<<dp[i]<<" "; 
+        }
+        if(dp[len-1]>0)
+            return true;
+        else
+            return false;
+        
+        
+    }
+};

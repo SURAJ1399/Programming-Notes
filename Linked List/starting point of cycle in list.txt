@@ -1,0 +1,20 @@
+Node * checkstartingpointofcycle(Node* head) 
+{   Node * slw=head;
+    Node *fast=head;
+    Node *entry=head;
+    while(fast->next!=NULL && fast->next->next!=NULL)
+    {
+        slw=slw->next;
+        fast=fast->next->next;
+       if(slw==fast)
+       {
+             while(slw!=entry)
+            {
+              slw=slw->next;
+              entry=entry->next; 
+            } 
+return entry;
+       }
+    }
+return null;
+}

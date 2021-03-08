@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+const int mod=1e9+7;
+using namespace std;
+
+int main()
+{
+    int t,n,k,x,y;
+    //freopen("abhi.txt","r",stdin);
+    cin>>t;
+    while(t--)
+    {
+        int dp[101][101];
+        cin>>x;
+        cin>>y;// Take size of both the strings as input
+        string s1,s2;
+        cin>>s1;
+        cin>>s2;// Take both the string as input
+        memset(dp,0,sizeof(dp));    // Initally set dp as 0
+        //int x=s1.length();
+        //int y=s2.length();
+        for(int i=0;i<=x;i++)
+        {
+            for(int j=0;j<=y;j++)
+            {
+                if(i==0||j==0)
+                dp[i][j]=0;                         // If i or j is 0, mark dp as 0 and continue
+               else if (s1[i-1] == s2[j-1])         // If the char in both strings are equal
+                    dp[i][j] = dp[i-1][j-1] + 1;    // Add 1 to the output we got without including these both chars.
+
+                else
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1]); // If s1[i-1]!=s2[j-1], check the max output which comes from s1 or s2 without current char considering.
+            }
+        }
+        cout<<dp[x][y]<<endl;   // Output the answer of dp[x][y]
+    }
+    return 0;
+}

@@ -1,0 +1,62 @@
+class Solution {
+public:
+    /**
+     * @param words: a list of words
+     * @return: a string which is correct order
+     */
+    string alienOrder(vector<string> &words) {
+        // Write your code here
+
+		
+    if (words.size()<2) return words[0];
+        vector<set<char>> graph(26);
+        map<char, int> indeg;
+        
+    	for (string& w : words) 
+		for (char c : w)
+		 indeg[c]=0;
+
+
+        for (int i=1; i<words.size(); i++) {
+            bool diff = false;
+            for (int j=0; j<words[i].size(); j++) {
+                if (j==words[i-1].size()) break;
+                if (words[i][j] != words[i-1][j]) {
+                    graph[words[i-1][j]-'a'].insert(words[i][j]);
+                    indeg[words[i][j]]++;
+					diff=true;
+        
+                    break;
+                }
+            }
+			
+				if(diff==false && words[i-1].length()>words[i].length())//this means  2nd word is prefix of first
+				return "";
+		}
+        
+        string res;
+        priority_queue<char, vector<char>,greater<int>> q; 
+		//priority q used for ["ca","cb"] && ["zx","zy"]
+		// with queue it gives acb & xzy with prority q it gives abc & xyz 
+        for (auto p : indeg) {
+            if (p.second==0) q.push(p.first);
+        }
+
+        while (!q.empty()) {
+            char c = q.top();
+            q.pop();
+            res += c;
+            for (char n : graph[c-'a']) {
+                indeg[n]--;
+				if(indeg[n]==0)
+				 q.push(n);
+            }
+        }
+		if(indeg.size()!=res.size())
+		return "";
+        
+        return res;
+    }
+
+    
+};

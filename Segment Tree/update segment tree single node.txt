@@ -1,0 +1,24 @@
+void updateNode(int *tree,int index,int s,int e,int i,int value)
+{
+
+   //if we reach leaf node 
+    if(s==e)
+    {
+        tree[index]=value;
+        return;
+    }
+		
+   //if i does not lie in s and e do nothing
+    
+    if(i<s|| i>e )
+    
+    {
+      return;
+    }
+    
+    int mid=(s+e)/2;
+    updateNode(tree,2*index,s,mid,i,value);
+    updateNode(tree,2*index+1,mid+1,e,i,value);
+    tree[index]=  min(tree[2*index],tree[2*index+1]);
+    return;
+}
